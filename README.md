@@ -36,6 +36,21 @@ Fake data is built to be safe:
 - IPs use documentation-only ranges.
 - API keys start with `demo_key_` so secret scanners do not flag the CSV.
 
+
+## Results: redaction (regex layer)
+
+- Synthetic data: 400 cases with a planted-PII answer key.
+- On that data, recall and precision were 100% for email, phone, IP,
+  API key and bearer token. Leak check: 0 of 400 cases leaked anything
+  except names. Names leaked 282 of 282 (regex cannot find names).
+- That data uses clean formats I generated, so I also wrote 8 tricky cases by hand.
+  Initial result: recall 57%, precision 80%. After allowing dots and a missing
+  space in phone numbers: recall 86%, precision 86%.
+- Still failing: an email written as "jo at contoso dot com" (no @ sign) and a
+  version number "2.58.0.1" flagged as an IP address.
+- Next layers: NER for names, and an LLM check for obfuscated or ambiguous cases.
+- Tokenization (reversible) is available through `tokenize_text` / `detokenize_text`.
+
 ## Next steps
 
 2. Redaction: regex layer first, then measure how much planted PII it catches.

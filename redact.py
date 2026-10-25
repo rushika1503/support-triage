@@ -22,7 +22,8 @@ def find_bearer_tokens(text):
     return re.findall(BEARER_PATTERN, text)
 
 
-PHONE_PATTERN = r"(?:\+1 )?(?:\(\d{3}\) |\d{3}[ -])\d{3}[ -]\d{4}"
+#PHONE_PATTERN = r"(?:\+1 )?(?:\(\d{3}\) |\d{3}[ -])\d{3}[ -]\d{4}"\
+PHONE_PATTERN = r"(?:\+1 )?(?:\(\d{3}\) ?|\d{3}[ .-])\d{3}[ .-]\d{4}"
 
 def find_phones(text):
     return re.findall(PHONE_PATTERN, text)

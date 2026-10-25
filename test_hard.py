@@ -10,8 +10,16 @@ CASES = [
      "expected": [("EMAIL", "priya.shah@contoso.com")]},
     {"text": "Agent version 2.58.0.1 is installed on the server.",
      "expected": []},
-      {"text": "I emailed support@contoso.com",
-          "expected": []},
+       {"text": "My direct line is (425)555-0163.",
+     "expected": [("PHONE", "(425)555-0163")]},
+    {"text": "The failing host is 203.0.113.40:8443 right now.",
+     "expected": [("IP_ADDRESS", "203.0.113.40")]},
+    {"text": "Order 4255550163 shipped yesterday.",
+     "expected": []},
+    {"text": "Mail jo at contoso dot com if it fails again.",
+     "expected": [("EMAIL", "jo at contoso dot com")]},
+    {"text": "Call me at 206-555-0142 or on 425 555 0163.",
+     "expected": [("PHONE", "206-555-0142"), ("PHONE", "425 555 0163")]},
 ]
 
 tp = fn = fp = 0
