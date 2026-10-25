@@ -43,3 +43,29 @@ def redact_text(text):
         # print(pattern, f"[{kind}]", text)
         text = re.sub(pattern, f"[{kind}]", text)
     return text
+
+
+#tokenization
+def tokenize_text(text):
+    table = {}
+    seen = {}
+    counts= {}
+
+    for kind,pattern in PATTERNS.items():
+        def replace(match):
+            value = match.group(0)
+            if value not in seen:
+                counts[kind] = counts.get(kind, 0) + 1
+                token = f"[{kind}_{counts[kind]}]"
+                seen[value] = token
+                table[token] = value
+            return seen[value]
+
+        text = re.sub(pattern, replace, text)
+
+    return text, table
+
+def detokenize_text(text, table):
+    for token, value in table.items():
+        text = text.replace(token, value)
+    return text
