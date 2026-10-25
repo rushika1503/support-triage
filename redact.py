@@ -40,5 +40,6 @@ PATTERNS = {
 
 def redact_text(text):
     for kind, pattern in PATTERNS.items():
+        # print(pattern, f"[{kind}]", text)
         text = re.sub(pattern, f"[{kind}]", text)
     return text
