@@ -54,5 +54,22 @@ Fake data is built to be safe:
 ## Next steps
 
 2. Redaction: regex layer first, then measure how much planted PII it catches.
+
+## Results: routing classifier
+
+- Data: 400 synthetic cases, PII redacted first. Split 80/20 (stratified, fixed seed).
+  Baseline of always guessing the biggest team: 28%.
+- TF-IDF + logistic regression: 99% accuracy on 80 held-out cases, with one error
+  (Dynamics 365 predicted as Azure, confidence 0.27).
+- Confidence threshold: at 0.3 the model answers 76 of 80 cases with 100% accuracy;
+  the rest go to a human.
+- Misroute detection: trained on the noisy assigned_team labels with 5-fold
+  cross-validation, then flagged cases where the model confidently disagrees.
+  At a 0.4 cutoff it caught 12 of 15 real misroutes with no false alarms
+  (recall 0.80, precision 1.00). At 0.3 it caught 14 of 15 with 2 false alarms
+  (recall 0.93, precision 0.88).
+- Caveat: the data is generated from templates, so these numbers are optimistic.
+  Next I would test on real data from a later time period and compare against
+  embeddings or an LLM.
 3. MCP server exposing `redact_text`, `classify_case`, and `search_kb`.
 4. Evaluation harness with an LLM judge and a CI regression gate.
